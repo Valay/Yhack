@@ -10,7 +10,7 @@ import android.hardware.Camera.PictureCallback;
 public class CameraCapture {
 
 	/** Check if this device has a camera */
-	private boolean checkCameraHardware(Context context) {
+	public boolean checkCameraHardware(Context context) {
 	    if (context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)){
 	        // this device has a camera
 	        return true;
@@ -32,11 +32,5 @@ public class CameraCapture {
 	    return c; // returns null if camera is unavailable
 	}
 	
-	private PictureCallback mPicture = new PictureCallback() {
-
-	    @Override
-	    public void onPictureTaken(byte[] data, Camera camera) {
-
-	    }
-	};
+	
 }
