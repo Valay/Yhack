@@ -13,6 +13,20 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    >
+  <FrameLayout
+    android:id="@+id/camera_preview"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_weight="1"
+    />
+
+  
+</LinearLayout>
         <activity
             android:name="com.sketcher.MainActivity"
             android:label="@string/app_name" >
@@ -30,6 +44,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.sketcher.MainActivity" />
         </activity>
+        
     </application>
 
 </manifest>

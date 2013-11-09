@@ -1,12 +1,20 @@
 package com.sketcher;
 
+import java.io.ByteArrayInputStream;
+
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.hardware.Camera;
+import android.media.MediaMetadataRetriever;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -16,11 +24,20 @@ public class MainActivity extends Activity {
 
 	public final static String EXTRA_MESSAGE = "com.sketcher.MESSAGE";
 	
-    @Override
+    @TargetApi(Build.VERSION_CODES.GINGERBREAD_MR1)
+	@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        CameraCapture c = new CameraCapture();
+        
+        MediaMetadataRetriever md = new MediaMetadataRetriever();
+        
+        md.setDataSource("/storage/emulated/0/DCIM/Camera/VID_20131108_214558.mp4");
+        
+        //Bitmap bmp = md.getFrameAtTime(1);
+
+        
+       CameraCapture c = new CameraCapture();
 //        
         if( c.checkCameraHardware(this.getApplicationContext()) ){
 //        	// Okay the mobile has camera in built 
@@ -33,22 +50,28 @@ public class MainActivity extends Activity {
             	int j=0;
             	FrameProcesser jpeg = new FrameProcesser(this);
             	Bitmap bmp= null;
-            	
-            	cam.startPreview();
-            	/*{
-            		cam.takePicture (null, null, null, jpeg);
+            	try{
+                	SurfaceView sv = new SurfaceView(this);
+                	setContentView(sv);
+                	cam.setPreviewDisplay(sv.getHolder());
+                	cam.startPreview();
+ 
+               		cam.takePicture (null, null, null, jpeg);
             		try{
                 		Thread.sleep(2000);
             		}catch(Exception e){
             			e.printStackTrace();
             		}
-            		if( (bmp =jpeg.getImage()) != null){
-            			ImageView img = new ImageView(this);
-            			img.setImageBitmap(bmp);
-                    	setContentView(img);	
+            		if( (bmp =jpeg.getImage()) == null){
+            			TextView t1 = new TextView(this);
+                    	t1.setText("NOT Captured Image");
+                    	setContentView(t1);
             		}
-            	}*/
-            	//cam.stopPreview();
+            	}catch(Exception e)
+            	{
+            		
+            	}
+            	cam.stopPreview();
             	
         		
         	}else{
