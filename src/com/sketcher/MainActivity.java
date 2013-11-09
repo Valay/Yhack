@@ -2,12 +2,14 @@ package com.sketcher;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.hardware.Camera;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class MainActivity extends Activity {
@@ -23,13 +25,38 @@ public class MainActivity extends Activity {
         if( c.checkCameraHardware(this.getApplicationContext()) ){
 //        	// Okay the mobile has camera in built 
         	Camera cam = c.getCameraInstance();
-        	int j=0;
-        	Camera.PictureCallback jpeg = null;
-//        	while(true){
-//        		cam.takePicture (null, null, null, jpeg);
-//        		Log.i("afadf",Integer.toString(j));
-//        	}
-        	
+        	if(cam != null){
+            	TextView t = new TextView(this);
+            	t.setText("Found camera");
+            	setContentView(t);
+            	
+            	int j=0;
+            	FrameProcesser jpeg = new FrameProcesser(this);
+            	Bitmap bmp= null;
+            	
+            	cam.startPreview();
+            	/*{
+            		cam.takePicture (null, null, null, jpeg);
+            		try{
+                		Thread.sleep(2000);
+            		}catch(Exception e){
+            			e.printStackTrace();
+            		}
+            		if( (bmp =jpeg.getImage()) != null){
+            			ImageView img = new ImageView(this);
+            			img.setImageBitmap(bmp);
+                    	setContentView(img);	
+            		}
+            	}*/
+            	//cam.stopPreview();
+            	
+        		
+        	}else{
+            	TextView t = new TextView(this);
+            	t.setText(" Can not Open camera");
+            	setContentView(t);
+
+        	}
         }
         
         
